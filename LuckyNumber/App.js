@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
-import {StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {Alert, Image, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
 
 const App = () => {
   const [name, SetName] = useState("");
-  const [text, SetText] = useState("");
   const [number, setNumber] = useState(null);
 
   const validate = () =>{
@@ -13,19 +12,19 @@ const App = () => {
 
     if(name=="" || num == null)
     {
-      SetText("Porfavor asegurese de llenar los campos")
+      Alert.alert("Error","Please be sure to fill in the fields")
     }
     else
     {
       if(num%1 != 0 || num < 0)
       {
-        SetText("Porfavor ingrese valores enteros positivos")
+        Alert.alert("Error","Please enter positive integer values")
       }
       else
       {
-        if(num>99)
+        if(num>99 || num < 1 )
         {
-          SetText("Porfavor ingrese valores menores a 99")
+          Alert.alert("Please enter values ​​less than 100 and greater than 0")
         }
         else
         {
@@ -34,23 +33,21 @@ const App = () => {
             num = num*7
             do
             {
-              n1 = num/10
-              n1 = Math.floor(n1)
+              n1 = Math.floor(num/10)
               n2 = num%10
               num = n1+n2
             }while (num>10)
-            SetText(name + " tu número de la suerte es: " + num)
+            Alert.alert("Congrats", "Welcome "+ name + " your lucky number is: " + num)
           }
           else
           {
             do
             {
-              n1 = num/10
-              n1 = Math.floor(n1)
+              n1 = Math.floor(num/10)
               n2 = num%10
               num = n1+n2
             }while (num>=10)
-            SetText("Bienvenido "+ name + ", su número de la suerte es " + num)
+            Alert.alert("Congrats", "Welcome "+ name + " your lucky number is: " + num)
           }
         }
       }
@@ -59,28 +56,26 @@ const App = () => {
 
   return (
     <View style={styles.Body}>
-      <Image
+      <Image style={styles.Image}
         source={require("./src/images/Logo.png")}/>
       <Text style={styles.Title}>Lucky Number</Text>
       <TextInput
         style={styles.Input}
-        placeholder="Ingresa tu nombre"
+        placeholder="Enter your name"
         onChangeText={SetName}
       ></TextInput>
 
       <TextInput
         style={styles.Input}
-        placeholder="Ingresa tu edad"
+        placeholder="Enter your age"
         keyboardType="numeric"
         onChangeText={setNumber}
       ></TextInput>
 
       <TouchableOpacity style={styles.luckybutton}
         onPress={validate}>
-        <Text style={styles.luckytext}>Obtener mi número</Text>
+        <Text style={styles.luckytext}>Get my number</Text>
       </TouchableOpacity>
-
-      <Text style={styles.Result}>{text}</Text>
     </View>
   )
 }
@@ -91,6 +86,11 @@ const styles = StyleSheet.create({
     height: '100%',
     justifyContent: 'center',
   },
+  Image:{
+    width: 300,
+    height: 150,
+    margin: "2%",
+  }, 
   Title:{
     fontSize: 30,
     fontWeight: "400",
